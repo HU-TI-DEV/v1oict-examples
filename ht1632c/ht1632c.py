@@ -1,3 +1,7 @@
+# 32x8 Matrix LED driver for Holtek HT1632C
+# (c) 2023 Hogeschool Utrecht, Hagen Patzke (hagen.patzke@hu.nl)
+# - This was derived from the max7219 driver.
+# - Width and height dimensions are swapped in this first version.
 """
 Summary from the datasheet:
 
@@ -31,9 +35,7 @@ Datasheet: https://cdn-shop.adafruit.com/datasheets/ht1632cv120.pdf
 Protocol description: https://www.lucadentella.it/en/2012/10/03/matrice-di-led-con-ht1632c-2/
 GitHub link: https://github.com/lucadentella/LedMatrix
 """
-# WORK IN PROGRESS
 from machine import Pin
-from time import sleep_us
 from micropython import const
 import framebuf
 
@@ -167,9 +169,11 @@ class HT1632C(framebuf.FrameBuffer):
 
     def show(self):
         """Update display"""
-        ramidx = 62
+        # TODO: simplify, add 90 degree rotation
+        ram_address = self.width * 2
         for matrix in range(self.nb_matrices):
             for line in range(8):
+                ram_address -= 2  # display addresses are for 4-bit nybbles
                 # Guess where the matrix is placed
                 row, col = divmod(matrix, self.cols)
                 # Compute where the data starts
@@ -180,8 +184,6 @@ class HT1632C(framebuf.FrameBuffer):
                     offset = row * self.cols * 8
                     index = offset + self.cols * line + col
                 # Write data to the matrix display
-                # print('ramidx =', ramidx, ' line = ', line, ' matrix = ', matrix)
-                self._write_data(ramidx, self.buffer[index])
-                ramidx -= 2
+                self._write_data(ram_address, self.buffer[index])
 
 # eof

@@ -1,10 +1,9 @@
 """
 Oriëntatie op TI
 
-max7219 32x8 LED Matrix demo for Raspberry Pico and Pico W
+ht1632c 32x8 LED Matrix demo for Raspberry Pico and Pico W
 
-(c) 2022 Hogeschool Utrecht,
-Hagen Patzke (hagen.patzke@hu.nl)
+(c) 2023 Hogeschool Utrecht, Hagen Patzke (hagen.patzke@hu.nl)
 """
 
 from machine import Pin
