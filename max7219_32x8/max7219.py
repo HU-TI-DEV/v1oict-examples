@@ -65,12 +65,12 @@ class Max7219(framebuf.FrameBuffer):
     def init_display(self):
         """Init hardware"""
         for command, data in (
-            (_SHUTDOWN, _SHUTDOWN_MODE),  # Prevent flash during init
-            (_DECODE_MODE, _NO_DECODE),
-            (_DISPLAY_TEST, _DISPLAY_TEST_NORMAL_OPERATION),
-            (_INTENSITY, _INTENSITY_MIN),
-            (_SCAN_LIMIT, _DISPLAY_ALL_DIGITS),
-            (_SHUTDOWN, _NORMAL_OPERATION),  # Let's go
+                (_SHUTDOWN, _SHUTDOWN_MODE),  # Prevent flash during init
+                (_DECODE_MODE, _NO_DECODE),
+                (_DISPLAY_TEST, _DISPLAY_TEST_NORMAL_OPERATION),
+                (_INTENSITY, _INTENSITY_MIN),
+                (_SCAN_LIMIT, _DISPLAY_ALL_DIGITS),
+                (_SHUTDOWN, _NORMAL_OPERATION),  # Let's go
         ):
             self._write_command(command, data)
 
@@ -93,13 +93,13 @@ class Max7219(framebuf.FrameBuffer):
                 # Guess where the matrix is placed
                 row, col = divmod(matrix, self.cols)
                 # Compute where the data starts
-                if not self.rotate_180:
-                    offset = row * 8 * self.cols
-                    index = col + line * self.cols + offset
+                if self.rotate_180:
+                    offset = (self.rows - row) * self.cols * 8 - 1
+                    index = offset - self.cols * line - col
                 else:
-                    offset = 8 * self.cols - row * self.cols * 8 - 1
-                    index = self.cols * (8 - line) - col + offset
-
+                    offset = row * self.cols * 8
+                    index = offset + self.cols * line + col
+                # Write data to the matrix display
                 self.spi.write(bytearray([_DIGIT_0 + line, self.buffer[index]]))
 
             self.cs(1)
