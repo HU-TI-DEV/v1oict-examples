@@ -1,10 +1,8 @@
-from machine import Pin
-import time
+import machine
+import utime
 
-gpio_pin = Pin(25, Pin.OUT)
+led = machine.Pin("LED", machine.Pin.OUT)
 
 while True:
-    gpio_pin.value(1)
-    time.sleep(0.5)
-    gpio_pin.value(0)
-    time.sleep(0.5)
+    led.toggle()  # Toggle the LED state
+    utime.sleep(1)  # Wait for 1 second
