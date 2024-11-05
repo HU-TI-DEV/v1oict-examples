@@ -16,7 +16,7 @@ from machine import Pin
 import time
 
 # Use on-board led
-led = Pin(25, Pin.OUT)
+led = Pin("LED", Pin.OUT)
 
 # Blink led to confirm succesful flashing
 for _ in range(5):
