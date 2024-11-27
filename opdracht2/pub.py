@@ -11,8 +11,8 @@ PASSWORD = ''
 
 
 # MQTT Configuration, add your MQTT broker address and port here
-MQTT_BROKER = ''
-MQTT_PORT = 
+MQTT_BROKER = 'broker.hivemq.com'
+MQTT_PORT = 1883
 CLIENT_ID = ubinascii.hexlify(machine.unique_id())
 # Add your unique MQTT topic for temperature here (your name + your date of birth + 'TEMP')
 TOPIC_TEMP = ''  #
