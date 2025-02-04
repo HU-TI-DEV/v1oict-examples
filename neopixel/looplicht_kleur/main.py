@@ -1,10 +1,9 @@
-import time
+# NeoPixel looplicht_kleur
+from machine import Pin
+from time import sleep_ms
+from neopixel import NeoPixel
 
-import machine
-import neopixel
-
-np = neopixel.NeoPixel(machine.Pin(13), 8)
+np = NeoPixel(Pin(13), 8)
 
 while True:
-    time.sleep(1)
-
+    sleep_ms(1000)
